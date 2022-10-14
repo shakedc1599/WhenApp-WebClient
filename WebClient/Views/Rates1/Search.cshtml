@@ -1,0 +1,82 @@
+﻿@model IEnumerable<webClientEx2.Models.Rate>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@section head{
+    <style type="text/css">
+         body {
+             background: rgb(2, 128, 144);
+             background: linear-gradient(75deg, #04adc4 35%, #027786 35%, #01424b 75%);
+        }
+    </style>
+}
+<h1  style="color:white">App rating</h1>
+
+<p>
+    <a asp-action="Create"  style="color:white">Create New rating</a>
+</p>
+<form asp-action="Search">
+    <input name="query" />
+    <input type = "submit" value = "Search" />
+</form>
+@{
+    float avg = 0;
+    float sum = 0;
+    int count = 0;
+    foreach (var rate in Model)
+    {
+        count++;
+        sum += rate.RatingNum;
+    }
+    if (count != 0)
+    {
+        avg = sum / count;
+        avg = (float)System.Math.Round(avg, 2);
+        <center><h1  style="color:white">The avg is: @avg</h1></center>
+    }
+   
+}
+<table class="table">
+    <thead  style="color:white">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatingNum)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr  style="color:white">
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatingNum)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id"  style="color:white">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id"  style="color:white">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id"  style="color:white">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<a asp-action="Search"  style="color:white">See all the rates</a>
